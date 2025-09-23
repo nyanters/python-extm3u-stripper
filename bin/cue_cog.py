@@ -11,6 +11,7 @@ Options:
 """.format(f=__file__)
 
 from docopt import docopt
+from time import sleep
 import ini
 import os
 import platform
@@ -37,6 +38,7 @@ def play_mid(m3u):
     apath = os.path.abspath(i)
     cmd = ['open', '-a', 'Cog', apath]
     subprocess.run(cmd)
+    sleep(3)
   return
 
 
