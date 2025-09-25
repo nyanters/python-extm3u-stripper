@@ -10,7 +10,9 @@ Options:
 """.format(f=__file__)
 
 from docopt import docopt
+from pathlib import Path
 import os
+import re
 import subprocess
 import sys
 
@@ -21,10 +23,15 @@ def main(m3u):
 
 
 def init(m3u):
-  os.chdir(os.path.dirname(os.path.abspath(__file__)))
+  midpath = []
+  os.chdir(os.path.dirname(os.path.abspath(m3u)))
   txtpath = open(m3u, 'r', encoding='UTF-8')
   txt = txtpath.read().splitlines()
-  midpath = [mid for mid in txt if not mid.startswith('#')]
+  midpath_raw = [mid for mid in txt if not mid.startswith('#')]
+  for i in midpath_raw:
+    i_home = re.sub(r'^~', str(Path.home()), i)
+    i_abs = os.path.abspath(i_home)
+    midpath.append(i_abs)
   return midpath
 
 

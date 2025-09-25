@@ -28,8 +28,7 @@ def play_mid(m3u):
   txt = ini.init(m3u)
   os.chdir(os.path.dirname(m3u))
   for i in txt:
-    apath = os.path.abspath(i)
-    subprocess.run(['timidity', '--module='+str(mod), '-Od', apath])
+    subprocess.run(['timidity', '--module='+str(mod), '-Od', i])
   return
 
 

@@ -11,33 +11,27 @@ Options:
 """.format(f=__file__)
 
 from docopt import docopt
-from time import sleep
+from pathlib import Path
 import ini
 import os
-import platform
 import subprocess
 import sys
 
 
 def main(m3u):
-  check_os()
   play_mid(m3u)
   sys.exit()
 
 
-def check_os():
-  if not platform.system() == 'Darwin':
-    sys.exit('This script is for only macOS!')
-  return
-
-
 def play_mid(m3u):
+  tmp_m3u = os.path.join(Path.home(), 'Downloads', 'tmp.m3u')
   txt = ini.init(m3u)
-  os.chdir(os.path.dirname(m3u))
   for i in txt:
-    cmd = ['open', '-a', 'Cog', i]
-    subprocess.run(cmd)
-    sleep(3)
+    with open(tmp_m3u, 'a', encoding='utf-8') as f:
+      f.write(i+'\n')
+  cmd = ['mpv', 'shuffle=yes', tmp_m3u]
+  subprocess.run(cmd)
+  os.remove(tmp_m3u)
   return
 
 

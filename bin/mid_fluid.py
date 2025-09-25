@@ -27,8 +27,7 @@ def play_mid(m3u, sf2):
   txt = ini.init(m3u)
   os.chdir(os.path.dirname(m3u))
   for i in txt:
-    apath = os.path.abspath(i)
-    subprocess.run(['fluidsynth', '-i', sf2, apath])
+    subprocess.run(['fluidsynth', '-i', sf2, i])
   return
 
 
