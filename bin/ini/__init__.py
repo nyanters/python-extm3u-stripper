@@ -22,6 +22,20 @@ def main(m3u):
   sys.exit()
 
 
+def extract_suffix(path_raw):
+  path = path_raw
+  suffix = ''
+  targets = ['#', '::', '>']
+  for i in targets:
+    if i not in path_raw:
+      pass
+    else:
+      idx = path_raw.find(i)
+      path = path_raw[:idx]
+      suffix = path_raw[idx:]
+  return path, suffix
+
+
 def init(m3u):
   midpath = []
   os.chdir(os.path.dirname(os.path.abspath(m3u)))
@@ -29,9 +43,10 @@ def init(m3u):
   txt = txtpath.read().splitlines()
   midpath_raw = [mid for mid in txt if not mid.startswith('#')]
   for i in midpath_raw:
-    i_home = re.sub(r'^~', str(Path.home()), i)
+    i_path, i_suf = extract_suffix(i)
+    i_home = re.sub(r'^~', str(Path.home()), i_path)
     i_abs = os.path.abspath(i_home)
-    midpath.append(i_abs)
+    midpath.append(i_abs+i_suf)
   return midpath
 
 

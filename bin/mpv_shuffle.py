@@ -28,8 +28,8 @@ def play_mid(m3u):
   txt = ini.init(m3u)
   for i in txt:
     with open(tmp_m3u, 'a', encoding='utf-8') as f:
-      f.write(i+'\n')
-  cmd = ['mpv', 'shuffle=yes', tmp_m3u]
+      print(i+'\n', file=f)
+  cmd = ['mpv', '--shuffle', tmp_m3u]
   subprocess.run(cmd)
   os.remove(tmp_m3u)
   return
